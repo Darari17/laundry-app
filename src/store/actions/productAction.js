@@ -2,7 +2,13 @@ import { axiosInstance } from "../../lib/axios";
 
 export const getProduct = () => async (dispatch) => {
   try {
-    const response = await axiosInstance.get("/products");
+    const token = localStorage.getItem("token");
+    const response = await axiosInstance.get("/products", {
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+    });
     dispatch({
       type: "GET_PRODUCT",
       payload: response.data.data,

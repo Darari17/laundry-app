@@ -33,7 +33,9 @@ const ReadProducts = () => {
   };
 
   useEffect(() => {
-    dispatch(getProduct());
+    setTimeout(() => {
+      dispatch(getProduct());
+    }, 500);
   }, [dispatch]);
 
   return (

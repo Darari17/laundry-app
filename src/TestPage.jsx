@@ -8,26 +8,12 @@ const TestPage = () => {
   const [storedData, setStoredData] = useState(null);
 
   const submitButton = (data) => {
-    try {
-      localStorage.setItem("data", data);
-      console.log(data);
-      setStoredData(data);
-    } catch (error) {
-      toast.error("error wak", error);
-    }
+    setStoredData(data);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("data");
     setStoredData();
   };
-
-  // useEffect(() => {
-  //   const getData = localStorage.getItem("data");
-  //   if (getData) {
-  //     setStoredData(JSON.parse(getData));
-  //   }
-  // }, []);
 
   return (
     <div className="flex items-center justify-center h-screen">

@@ -31,6 +31,7 @@ const Login = () => {
     dispatch(authLogin(data));
     localStorage.setItem("data", JSON.stringify(data));
     navigate("/products");
+    console.log(data.data);
   };
 
   const renderController = (name, label, type = "text") => {
