@@ -8,17 +8,15 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 import { useForm, Controller } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import HomeIcon from "../../assets/icons/HomeIcon";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "../schema";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authLogin } from "../../store/actions/authAction";
 
 const Login = () => {
-  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const form = useForm({
     defaultValues: {
       username: "",
@@ -30,8 +28,6 @@ const Login = () => {
   const loginButton = (data) => {
     dispatch(authLogin(data));
     localStorage.setItem("data", JSON.stringify(data));
-    navigate("/products");
-    console.log(data.data);
   };
 
   const renderController = (name, label, type = "text") => {

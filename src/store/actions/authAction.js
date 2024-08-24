@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../lib/axios";
+import { toast } from "react-toastify";
 
 export const authLogin = (credentials) => async (dispatch) => {
   dispatch({ type: "AUTH_REQUEST" });
@@ -8,6 +10,7 @@ export const authLogin = (credentials) => async (dispatch) => {
     const userData = response.data.data;
 
     localStorage.setItem("token", userData.token);
+    window.location.href = "/products";
 
     dispatch({
       type: "AUTH_SUCCESS",
@@ -18,6 +21,7 @@ export const authLogin = (credentials) => async (dispatch) => {
       type: "AUTH_FAILURE",
       payload: error.response?.data?.message || "Login Failed",
     });
+    toast.error(" Email / Password salah! ");
   }
 };
 
@@ -26,7 +30,10 @@ export const authRegister = (userDetails) => async (dispatch) => {
 
   try {
     const response = await axiosInstance.post("/auth/register", userDetails);
-    const userData = response.data;
+    const userData = response.data.data;
+    const navigate = useNavigate();
+
+    navigate("/auth/login");
 
     localStorage.setItem("token", userData.token);
 

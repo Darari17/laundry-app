@@ -12,11 +12,11 @@ import {
 import HomeIcon from "../../assets/icons/HomeIcon";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterSchema } from "../schema";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authRegister } from "../../store/actions/authAction";
+import { toast } from "react-toastify";
 
 const Register = () => {
-  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const form = useForm({
@@ -30,14 +30,11 @@ const Register = () => {
     resolver: zodResolver(RegisterSchema),
   });
 
-  const dataRegister = async (data) => {
-    try {
-      dispatch(authRegister(data));
-      console.log(data);
-      navigate("/auth/login");
-    } catch (error) {
-      console.log(error);
-    }
+  const dataRegister = (data) => {
+    dispatch(authRegister(data));
+    localStorage.setItem("data", JSON.stringify(data));
+    navigate("/auth/login");
+    toast.success("Register Berhasil");
   };
 
   const renderController = (name, label, type = "text") => {
@@ -90,15 +87,16 @@ const Register = () => {
             {renderController("username", "Username")}
             {renderController("password", "Password", "password")}
           </CardBody>
-          <div className="flex items-center justify-end py-4 px-3 ">
-            <Button variant="solid" color="warning">
+          <div className="flex items-center justify-between py-4 px-3 ">
+            <p className="px-2">
+              Sudah Punya Akun?
               <Link
                 to={"/auth/login"}
-                className="text-slate-100 font-semibold ml-1"
+                className="font-semibold ml-1 text-primary"
               >
                 Login
               </Link>
-            </Button>
+            </p>
             <Button
               type="submit"
               color="primary"

@@ -18,6 +18,7 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import AddIcon from "../../assets/icons/AddIcon";
+import { toast } from "react-toastify";
 
 const CreateBill = () => {
   const products = useSelector((state) => state.product.product);
@@ -57,6 +58,7 @@ const CreateBill = () => {
     await dispatch(postBill(payload));
     console.log(data);
     onOpenChange(false);
+    toast.success("Transaction added successfully");
   };
 
   return (
@@ -86,10 +88,25 @@ const CreateBill = () => {
                     control={form.control}
                     render={({ field }) => {
                       return (
-                        <Select {...field} aria-label="Select Customers">
+                        <Select
+                          {...field}
+                          aria-label="Select Customers"
+                          label="Select Customers"
+                          size="sm"
+                          disabledKeys={customers
+                            ?.filter(
+                              (c) =>
+                                c.name !== "Yanto Subidi" &&
+                                c.name !== "Ana Maryani"
+                            )
+                            .map((c) => c.name)}
+                        >
                           {customers.map((customer) => {
                             return (
-                              <SelectItem key={customer.id} value={customer.id}>
+                              <SelectItem
+                                key={customer.name}
+                                value={customer.name}
+                              >
                                 {customer.name}
                               </SelectItem>
                             );
@@ -107,6 +124,14 @@ const CreateBill = () => {
                         <Select
                           {...field}
                           aria-label="Select Products"
+                          label="Select Prooduct"
+                          size="sm"
+                          disabledKeys={products
+                            ?.filter(
+                              (p) =>
+                                p.name !== "Cuci + Setrika" && p.name !== "Cuci"
+                            )
+                            .map((p) => p.name)}
                           onChange={(e) => {
                             field.onChange(e);
                             const selectedProduct = products.find(
@@ -127,7 +152,10 @@ const CreateBill = () => {
                         >
                           {products.map((product) => {
                             return (
-                              <SelectItem key={product.id} value={product.id}>
+                              <SelectItem
+                                key={product.name}
+                                value={product.name}
+                              >
                                 {product.name}
                               </SelectItem>
                             );
@@ -146,6 +174,7 @@ const CreateBill = () => {
                           {...field}
                           label={"Qty"}
                           type="number"
+                          size="sm"
                           onChange={(e) => {
                             const qty = parseFloat(e.target.value);
                             field.onChange(qty);

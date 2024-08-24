@@ -14,23 +14,11 @@ import CreateProduct from "./CreateProduct";
 import Header from "../navbar/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { delProduct, getProduct } from "../../store/actions/productAction";
-
-//todo handling error
-//todo toast
-//todo loading
+import DeleteProduct from "./DeleteProduct";
 
 const ReadProducts = () => {
   const products = useSelector((state) => state.product.product);
   const dispatch = useDispatch();
-
-  const deleteProduct = async (id) => {
-    try {
-      await dispatch(delProduct(id));
-      dispatch(getProduct());
-    } catch (error) {
-      console.log("Error Deleting Product:", error);
-    }
-  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -67,16 +55,10 @@ const ReadProducts = () => {
                       name={product.name}
                       price={product.price}
                     />
-                    <Button
-                      onClick={() => deleteProduct(product.id)}
-                      variant="light"
-                      isIconOnly={true}
-                      size="sm"
-                      radius="sm"
-                      aria-label={`Delete ${product.name}`}
-                    >
-                      <DeleteIcon />
-                    </Button>
+                    <DeleteProduct
+                      productId={product.id}
+                      productName={product.name}
+                    />
                   </TableCell>
                 </TableRow>
               );

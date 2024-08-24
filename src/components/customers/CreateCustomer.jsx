@@ -11,12 +11,12 @@ import {
 } from "@nextui-org/react";
 import { useForm, Controller } from "react-hook-form";
 import AddIcon from "../../assets/icons/AddIcon";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getCustomer, postCustomer } from "../../store/actions/customerAction";
+import { toast } from "react-toastify";
 
 const CreateCustomer = () => {
-  const customers = useSelector((state) => state.customer.customer);
   const dispatch = useDispatch();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const form = useForm({
@@ -35,6 +35,7 @@ const CreateCustomer = () => {
     await dispatch(postCustomer(data));
     onOpenChange(false);
     form.reset();
+    toast.success("Customer added successfully");
   };
 
   return (
@@ -75,7 +76,7 @@ const CreateCustomer = () => {
                     <Input
                       {...field}
                       label="Phone Number"
-                      type="text"
+                      type="number"
                       size="sm"
                     />
                   );

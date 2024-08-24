@@ -11,25 +11,18 @@ import { useEffect } from "react";
 import Header from "../navbar/Header";
 import CreateCustomer from "../customers/CreateCustomer";
 import UpdateCustomer from "../customers/UpdateCustomer";
-import { DeleteIcon } from "../../assets/icons/DeleteIcon";
 import { useDispatch, useSelector } from "react-redux";
-import { delCustomer, getCustomer } from "../../store/actions/customerAction";
+import { getCustomer } from "../../store/actions/customerAction";
+import DeleteCustomer from "./DeleteCustomer";
 
 const ReadCustomers = () => {
   const customers = useSelector((state) => state.customer.customer);
   const dispatch = useDispatch();
 
-  const deleteCustomer = async (id) => {
-    try {
-      await dispatch(delCustomer(id));
-      dispatch(getCustomer());
-    } catch (error) {
-      console.log("Error Deleting Customer", error);
-    }
-  };
-
   useEffect(() => {
-    dispatch(getCustomer());
+    setTimeout(() => {
+      dispatch(getCustomer());
+    }, 500);
   }, [dispatch]);
 
   return (
@@ -62,16 +55,10 @@ const ReadCustomers = () => {
                       phoneNumber={customer.phoneNumber}
                       address={customer.address}
                     />
-                    <Button
-                      onClick={() => deleteCustomer(customer.id)}
-                      variant="light"
-                      isIconOnly={true}
-                      size="sm"
-                      radius="sm"
-                      aria-label={`Delete ${customer.name}`}
-                    >
-                      <DeleteIcon />
-                    </Button>
+                    <DeleteCustomer
+                      customerId={customer.id}
+                      customerName={customer.name}
+                    />
                   </TableCell>
                 </TableRow>
               );

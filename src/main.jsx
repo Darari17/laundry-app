@@ -8,6 +8,8 @@ import { reducers } from "./store";
 import { Provider } from "react-redux";
 import { applyMiddleware, createStore } from "redux";
 import { thunk } from "redux-thunk";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const store = createStore(reducers, applyMiddleware(thunk));
 
@@ -17,6 +19,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <NextUIProvider>
         <BrowserRouter>
           <App />
+          <ToastContainer
+            position="top-center"
+            autoClose={3000}
+            closeButton
+            closeOnClick
+            newestOnTop
+            limit={3}
+          />
         </BrowserRouter>
       </NextUIProvider>
     </Provider>

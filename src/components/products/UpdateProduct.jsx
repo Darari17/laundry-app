@@ -12,10 +12,7 @@ import { Controller, useForm } from "react-hook-form";
 import { EditIcon } from "../../assets/icons/EditIcon";
 import { useDispatch, useSelector } from "react-redux";
 import { getProduct, putProduct } from "../../store/actions/productAction";
-
-//todo handling error
-//todo toast
-//todo loading
+import { toast } from "react-toastify";
 
 const UpdateProduct = ({ id }) => {
   const products = useSelector((state) => state.product.product);
@@ -35,8 +32,10 @@ const UpdateProduct = ({ id }) => {
       dispatch(getProduct());
       onOpenChange(false);
       form.reset();
+      toast.success("Update Success");
     } catch (error) {
       console.log(error);
+      toast.error("Update Failed");
     }
   };
 

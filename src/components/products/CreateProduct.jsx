@@ -11,16 +11,12 @@ import {
 } from "@nextui-org/react";
 import { Controller, useForm } from "react-hook-form";
 import AddIcon from "../../assets/icons/AddIcon";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getProduct, postProduct } from "../../store/actions/productAction";
 import { useEffect } from "react";
-
-//todo handling error
-//todo taost
-//todo loading
+import { toast } from "react-toastify";
 
 const CreateProduct = () => {
-  const products = useSelector((state) => state.product.product);
   const dispatch = useDispatch();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const form = useForm({
@@ -34,10 +30,11 @@ const CreateProduct = () => {
     dispatch(getProduct());
   }, [dispatch]);
 
-  const submitButton = async (data) => {
-    await dispatch(postProduct(data));
+  const submitButton = (data) => {
+    dispatch(postProduct(data));
     onOpenChange(false);
     form.reset();
+    toast.success("Product added successfully");
   };
 
   return (

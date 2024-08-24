@@ -6,12 +6,10 @@ import Login from "./components/auth/Login";
 import ReadProducts from "./components/products/ReadProducts";
 import ReadCustomers from "./components/customers/ReadCustomers";
 import ReadBills from "./components/bills/ReadBills";
-import { Toaster } from "sonner";
 
 function App() {
   return (
     <Routes>
-      <Route element={<Toaster position="top-center" />} />
       <Route element={<TestPage />} path="/test" />
       <Route element={<HomePage />} path="/" />
       <Route element={<Register />} path="/auth/register" />

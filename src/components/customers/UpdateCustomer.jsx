@@ -10,11 +10,11 @@ import {
 } from "@nextui-org/react";
 import { Controller, useForm } from "react-hook-form";
 import { EditIcon } from "../../assets/icons/EditIcon";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { putCustomer, getCustomer } from "../../store/actions/customerAction";
+import { toast } from "react-toastify";
 
 const UpdateCustomer = ({ id }) => {
-  const customers = useSelector((state) => state.customer.customer);
   const dispatch = useDispatch();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const form = useForm({
@@ -32,8 +32,10 @@ const UpdateCustomer = ({ id }) => {
       dispatch(getCustomer());
       onOpenChange(false);
       form.reset();
+      toast.success("Update Success");
     } catch (error) {
       console.log(error);
+      toast.error("Update Failed");
     }
   };
 
