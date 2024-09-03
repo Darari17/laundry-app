@@ -15,7 +15,7 @@ export const LoginSchema = z.object({
 
 export const ProductSchema = z.object({
   name: z.string().min(1, "Masukkan nama produk"),
-  price: z.number().min(1, "Masukkan harga"),
+  price: z.number().min(1, "Masukkan harga "),
 });
 
 export const CustomerSchema = z.object({
