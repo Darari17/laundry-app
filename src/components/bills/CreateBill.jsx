@@ -19,6 +19,8 @@ import {
 } from "@nextui-org/react";
 import AddIcon from "../../assets/icons/AddIcon";
 import { toast } from "react-toastify";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { BillSchema } from "../schema";
 
 const CreateBill = () => {
   const products = useSelector((state) => state.product.product);
@@ -33,6 +35,7 @@ const CreateBill = () => {
       qty: "",
       total: 0,
     },
+    resolver: zodResolver(BillSchema),
   });
 
   useEffect(() => {
@@ -86,7 +89,7 @@ const CreateBill = () => {
                   <Controller
                     name="customers"
                     control={form.control}
-                    render={({ field }) => {
+                    render={({ field, fieldState }) => {
                       return (
                         <Select
                           {...field}
@@ -100,6 +103,9 @@ const CreateBill = () => {
                                 c.name !== "Ana Maryani"
                             )
                             .map((c) => c.name)}
+                          isRequired={Boolean(fieldState.error)}
+                          errorMessage={fieldState.error?.message}
+                          is
                         >
                           {customers.map((customer) => {
                             return (
@@ -116,7 +122,7 @@ const CreateBill = () => {
                   <Controller
                     name="products"
                     control={form.control}
-                    render={({ field }) => {
+                    render={({ field, fieldState }) => {
                       return (
                         <Select
                           {...field}
@@ -146,6 +152,8 @@ const CreateBill = () => {
                               form.setValue("total", 0);
                             }
                           }}
+                          isRequired={Boolean(fieldState.error)}
+                          errorMessage={fieldState.error?.message}
                         >
                           {products.map((product) => {
                             return (
@@ -162,7 +170,7 @@ const CreateBill = () => {
                   <Controller
                     name="qty"
                     control={form.control}
-                    render={({ field }) => {
+                    render={({ field, fieldState }) => {
                       return (
                         <Input
                           {...field}
@@ -181,6 +189,8 @@ const CreateBill = () => {
                               calculate(qty, selectedProduct?.price || 0)
                             );
                           }}
+                          isInvalid={Boolean(fieldState.error)}
+                          errorMessage={fieldState.error?.message}
                         />
                       );
                     }}

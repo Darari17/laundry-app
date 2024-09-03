@@ -13,6 +13,8 @@ import { EditIcon } from "../../assets/icons/EditIcon";
 import { useDispatch } from "react-redux";
 import { putCustomer, getCustomer } from "../../store/actions/customerAction";
 import { toast } from "react-toastify";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CustomerSchema } from "../schema";
 
 const UpdateCustomer = ({ id }) => {
   const dispatch = useDispatch();
@@ -24,6 +26,7 @@ const UpdateCustomer = ({ id }) => {
       phoneNumber: "",
       address: "",
     },
+    resolver: zodResolver(CustomerSchema),
   });
 
   const updateDataCustomer = async (data) => {
@@ -63,13 +66,15 @@ const UpdateCustomer = ({ id }) => {
               <Controller
                 name="name"
                 control={form.control}
-                render={({ field }) => {
+                render={({ field, fieldState }) => {
                   return (
                     <Input
                       {...field}
                       label="Customer Name"
                       type="text"
                       size="sm"
+                      isInvalid={Boolean(fieldState.error)}
+                      errorMessage={fieldState.error?.message}
                     />
                   );
                 }}
@@ -77,13 +82,15 @@ const UpdateCustomer = ({ id }) => {
               <Controller
                 name="phoneNumber"
                 control={form.control}
-                render={({ field }) => {
+                render={({ field, fieldState }) => {
                   return (
                     <Input
                       {...field}
                       label="Phone Number"
                       type="number"
                       size="sm"
+                      isInvalid={Boolean(fieldState.error)}
+                      errorMessage={fieldState.error?.message}
                     />
                   );
                 }}
@@ -91,9 +98,16 @@ const UpdateCustomer = ({ id }) => {
               <Controller
                 name="address"
                 control={form.control}
-                render={({ field }) => {
+                render={({ field, fieldState }) => {
                   return (
-                    <Input {...field} label="Address" type="text" size="sm" />
+                    <Input
+                      {...field}
+                      label="Address"
+                      type="text"
+                      size="sm"
+                      isInvalid={Boolean(fieldState.error)}
+                      errorMessage={fieldState.error?.message}
+                    />
                   );
                 }}
               />

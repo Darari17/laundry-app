@@ -15,6 +15,8 @@ import { useDispatch } from "react-redux";
 import { getProduct, postProduct } from "../../store/actions/productAction";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ProductSchema } from "../schema";
 
 const CreateProduct = () => {
   const dispatch = useDispatch();
@@ -22,8 +24,9 @@ const CreateProduct = () => {
   const form = useForm({
     defaultValues: {
       name: "",
-      price: "",
+      price: 0,
     },
+    resolver: zodResolver(ProductSchema),
   });
 
   useEffect(() => {
@@ -63,9 +66,16 @@ const CreateProduct = () => {
               <Controller
                 name={"name"}
                 control={form.control}
-                render={({ field }) => {
+                render={({ field, fieldState }) => {
                   return (
-                    <Input {...field} label="Name" type="text" size="sm" />
+                    <Input
+                      {...field}
+                      label="Name"
+                      type="text"
+                      size="sm"
+                      isInvalid={Boolean(fieldState.error)}
+                      errorMessage={fieldState.error?.message}
+                    />
                   );
                 }}
               />
@@ -73,19 +83,26 @@ const CreateProduct = () => {
                 <Controller
                   name={"price"}
                   control={form.control}
-                  render={({ field }) => {
+                  render={({ field, fieldState }) => {
                     return (
                       <Input
                         {...field}
                         label="Price"
                         type="number"
                         size="sm"
+                        onFocus={() => {
+                          if (field.value === 0) {
+                            field.onChange("");
+                          }
+                        }}
                         onChange={(e) => {
                           const valueAsNumber = parseInt(e.target.value, 10);
                           field.onChange(
                             isNaN(valueAsNumber) ? "" : valueAsNumber
                           );
                         }}
+                        isInvalid={Boolean(fieldState.error)}
+                        errorMessage={fieldState.error?.message}
                       />
                     );
                   }}
@@ -100,7 +117,6 @@ const CreateProduct = () => {
                 type="submit"
                 className="flex items-center justify-end"
                 color="primary"
-                onPress={() => onOpenChange(false)}
               >
                 Create
               </Button>

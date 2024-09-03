@@ -11,11 +11,8 @@ import {
   Tooltip,
   useDisclosure,
 } from "@nextui-org/react";
-import { useDispatch, useSelector } from "react-redux";
 
 const DetailBill = ({ billDetails }) => {
-  const bills = useSelector((state) => state.bill.bill);
-  const dispatch = useDispatch();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (

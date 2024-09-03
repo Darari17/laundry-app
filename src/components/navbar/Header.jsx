@@ -10,27 +10,14 @@ import {
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+
+import { Link } from "react-router-dom";
 import myImage from "../../assets/icons/logo.png";
-import { logout } from "../../store/actions/authAction";
 import myBackground from "../../assets/icons/background.png";
 import Logout from "../auth/Logout";
 
 const Header = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("data"));
-
-  // const handleLogout = () => {
-  //   try {
-  //     dispatch(logout());
-  //     confirm("Are You Sure?");
-  //     navigate("/auth/login");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   return (
     <>

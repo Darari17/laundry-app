@@ -15,6 +15,8 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getCustomer, postCustomer } from "../../store/actions/customerAction";
 import { toast } from "react-toastify";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CustomerSchema } from "../schema";
 
 const CreateCustomer = () => {
   const dispatch = useDispatch();
@@ -25,6 +27,7 @@ const CreateCustomer = () => {
       phoneNumber: "",
       address: "",
     },
+    resolver: zodResolver(CustomerSchema),
   });
 
   useEffect(() => {
@@ -64,20 +67,29 @@ const CreateCustomer = () => {
               <Controller
                 name={"name"}
                 control={form.control}
-                render={({ field }) => (
-                  <Input {...field} label="Name" type="text" size="sm" />
+                render={({ field, fieldState }) => (
+                  <Input
+                    {...field}
+                    label="Name"
+                    type="text"
+                    size="sm"
+                    isInvalid={Boolean(fieldState.error)}
+                    errorMessage={fieldState.error?.message}
+                  />
                 )}
               />
               <Controller
                 name={"phoneNumber"}
                 control={form.control}
-                render={({ field }) => {
+                render={({ field, fieldState }) => {
                   return (
                     <Input
                       {...field}
                       label="Phone Number"
                       type="number"
                       size="sm"
+                      isInvalid={Boolean(fieldState.error)}
+                      errorMessage={fieldState.error?.message}
                     />
                   );
                 }}
@@ -85,8 +97,15 @@ const CreateCustomer = () => {
               <Controller
                 name={"address"}
                 control={form.control}
-                render={({ field }) => (
-                  <Input {...field} label="Address" type="text" size="sm" />
+                render={({ field, fieldState }) => (
+                  <Input
+                    {...field}
+                    label="Address"
+                    type="text"
+                    size="sm"
+                    isInvalid={Boolean(fieldState.error)}
+                    errorMessage={fieldState.error?.message}
+                  />
                 )}
               />
             </ModalBody>

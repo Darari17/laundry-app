@@ -10,12 +10,11 @@ import {
 } from "@nextui-org/react";
 import { Controller, useForm } from "react-hook-form";
 import { EditIcon } from "../../assets/icons/EditIcon";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getProduct, putProduct } from "../../store/actions/productAction";
 import { toast } from "react-toastify";
 
 const UpdateProduct = ({ id }) => {
-  const products = useSelector((state) => state.product.product);
   const dispatch = useDispatch();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const form = useForm({
@@ -64,13 +63,15 @@ const UpdateProduct = ({ id }) => {
               <Controller
                 name="name"
                 control={form.control}
-                render={({ field }) => {
+                render={({ field, fieldState }) => {
                   return (
                     <Input
                       {...field}
                       label="Change Product Name"
                       type="text"
                       size="sm"
+                      isInvalid={Boolean(fieldState.error)}
+                      errorMessage={fieldState.error?.message}
                     />
                   );
                 }}
@@ -79,7 +80,7 @@ const UpdateProduct = ({ id }) => {
                 <Controller
                   name="price"
                   control={form.control}
-                  render={({ field }) => {
+                  render={({ field, fieldState }) => {
                     return (
                       <Input
                         {...field}
@@ -93,6 +94,8 @@ const UpdateProduct = ({ id }) => {
                             isNaN(valueAsNumber) ? "" : valueAsNumber
                           );
                         }}
+                        isInvalid={Boolean(fieldState.error)}
+                        errorMessage={fieldState.error?.message}
                       />
                     );
                   }}
